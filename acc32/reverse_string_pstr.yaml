@@ -1,0 +1,24 @@
+limit: 0xFFFF
+memory_size: 8192
+memory_mapped_io:
+  0x80: ["hello\n"]
+  0x84: []
+reports:
+  - name: "Execution"
+    slice: all
+    view: |
+      {pc}: {instruction:next} {pc:label} | {Acc:hex}
+  - name: "Result"
+    slice: last
+    view: |
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+      symio[0x80]: {io:0x80:sym}
+      symio[0x84]: {io:0x84:sym}
+      {memory:0:31}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [111,108,108,101,104]
+      symio[0x80]: "" >>> ""
+      symio[0x84]: "" >>> "olleh"
+      mem[0..31]: 	05 6f 6c 6c 65 68 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f

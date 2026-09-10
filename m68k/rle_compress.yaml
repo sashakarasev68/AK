@@ -1,0 +1,19 @@
+name: rle_compress-A
+limit: 0xFFFF
+memory_size: 8192
+memory_mapped_io:
+  0x80: [65,10]
+  0x84: []
+reports:
+  - name: "Execution"
+    slice: all
+    view: |
+      {pc}: D1={D1} D2={D2} D4={D4} {instruction:next} {pc:label}
+  - name: "Result"
+    slice: last
+    view: |
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [49,65]

@@ -1,0 +1,19 @@
+name: little_to_big_endian-A
+limit: 200
+memory_size: 4096
+memory_mapped_io:
+  0x80: [305419896]
+  0x84: []
+reports:
+  - name: "Execution"
+    slice: all
+    view: |
+      {pc}: A0={A0} A1={A1} A2={A2} A3={A3} {instruction:next} {pc:label}
+  - name: "Result"
+    slice: last
+    view: |
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [2018915346]
